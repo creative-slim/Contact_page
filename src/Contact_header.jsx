@@ -14,7 +14,7 @@ import { Html, Center } from '@react-three/drei'
 
 // Define model URLs
 const localModelUrl = "/models/contact_header-transformed.glb";
-const remoteModelUrl = "https://files.creative-directors.com/creative-website/creative25/glbs/Font-Projekte-transformed.glb";
+const remoteModelUrl = "https://files.creative-directors.com/creative-website/creative25/contact-page/models/contact_header-transformed.glb";
 
 export const ContactHeader = React.forwardRef(({ onLoad, ...props }, ref) => {
   const { nodes, materials, loading } = useModelLoader(localModelUrl, remoteModelUrl);
