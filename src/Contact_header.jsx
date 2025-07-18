@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 ./public/models/Font-Projekte.glb --transform
 Files: ./public/models/Font-Projekte.glb [1.46MB] > /Users/slim-cd/Documents/_Projects/__Creative Directors Website/website 2025/Projects_page/Font-Projekte-transformed.glb [105.52KB] (93%)
 */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useHelper } from '@react-three/drei'
 import * as THREE from 'three'
@@ -13,11 +13,18 @@ import { useModelLoader, preloadModel } from './utils/ModelLoader'
 import { Html, Center } from '@react-three/drei'
 
 // Define model URLs
-const localModelUrl = "/models/Font-Projekte-transformed.glb";
+const localModelUrl = "/models/contact_header-transformed.glb";
 const remoteModelUrl = "https://files.creative-directors.com/creative-website/creative25/glbs/Font-Projekte-transformed.glb";
 
-export function ProjekteText(props) {
+export const ContactHeader = React.forwardRef(({ onLoad, ...props }, ref) => {
   const { nodes, materials, loading } = useModelLoader(localModelUrl, remoteModelUrl);
+
+  useEffect(() => {
+    if (!loading && onLoad) {
+      onLoad();
+    }
+  }, [loading, onLoad]);
+
 
   const pointLightRef = React.useRef();
   const directionalLightRef = React.useRef();
@@ -48,7 +55,7 @@ export function ProjekteText(props) {
   if (loading) return <group {...props}><Html center>Loading...</Html></group>;
 
   return (
-    <group {...props} dispose={null}>
+    <group {...props} ref={ref} dispose={null}>
       <pointLight
         ref={pointLightRef}
         position={[5, 0, 0]}
@@ -62,12 +69,17 @@ export function ProjekteText(props) {
       />
       <object3D ref={targetRef} position={[0, 0, 0]} />
       <Center>
-        <mesh geometry={nodes.Text_projekte.geometry} material={materials.White} position={[0, -0.021, 0]} />
-        <mesh geometry={nodes.Bevel.geometry} material={materials['Material.001']} position={[0, -0.142, 0]} />
+        {/* <mesh geometry={nodes.Text_projekte.geometry} material={materials.White} position={[0, -0.021, 0]} />
+        <mesh geometry={nodes.Bevel.geometry} material={materials['Material.001']} position={[0, -0.142, 0]} /> */}
+        <mesh geometry={nodes.Bevel.geometry} material={materials['Material.001']} position={[4.458, 0.034, -0.398]} rotation={[Math.PI / 2, 0, 0]} />
+        <mesh geometry={nodes.Text_projekte.geometry} material={materials.White} position={[4.458, 0.034, -0.278]} rotation={[Math.PI / 2, 0, 0]} />
+
       </Center>
     </group>
   )
-}
+});
+ContactHeader.displayName = "ContactHeader";
+
 
 // Preload the model
 preloadModel(localModelUrl, remoteModelUrl);

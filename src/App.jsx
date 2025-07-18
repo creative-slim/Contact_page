@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react"; // Import useState
+import React, { useEffect, useRef, useState, useCallback } from "react"; // Import useState
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   useCursor,
@@ -28,7 +28,7 @@ import Frames from "./Frames";
 import Terrain from "./Terrain";
 
 // import { Heading } from "./Site-headings";
-import { ProjekteText } from "./Font-Projekte";
+import { ContactHeader } from "./Contact_header";
 import AnimatedStars from "./AnimatedStars";
 import getApiData from "./images";
 import { devLog, devWarn, devError } from './utils/devLog';
@@ -40,11 +40,9 @@ import MouseCameraController from "./MouseCameraController";
 
 const INITIAL_FOV = 60; // Define initial FOV
 
-
-
 const App = ({ }) => {
   const innerSceneRef = useRef();
-  const headingRef = useRef(); // Create ref for Heading
+  const contactHeaderRef = useRef(); // Create ref for Heading
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sceneError, setSceneError] = useState(null);
@@ -112,14 +110,13 @@ const App = ({ }) => {
 /** CAMERA CONTROLS */
           {/* <OrbitControls /> */}
           {/* <CameraControls /> */}
-          <MouseCameraController lookAtRef={headingRef} />
+          <MouseCameraController lookAtRef={contactHeaderRef} />
 
           <Env />
-          <ProjekteText
-            ref={headingRef}
+          <ContactHeader
+            ref={contactHeaderRef}
             position={[0, 7.8, -3]}
             scale={1}
-            rotation={[Math.PI / 2, 0, 0]}
             castShadow
           />
 

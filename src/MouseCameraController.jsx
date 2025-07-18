@@ -7,6 +7,8 @@ export default function MouseCameraController({ lookAtRef }) {
     const mouseX = useRef(0)
     const basePositionRef = useRef(new THREE.Vector3())
     const targetPositionRef = useRef(new THREE.Vector3())
+    const isInitialLookAtSet = useRef(false);
+
 
     // Simplified parameters for horizontal movement
     const MAX_HORIZONTAL_OFFSET = 0.5 // Max distance camera can move from its base position
@@ -24,6 +26,11 @@ export default function MouseCameraController({ lookAtRef }) {
     }, [camera])
 
     useFrame(() => {
+        if (lookAtRef.current && !isInitialLookAtSet.current) {
+            camera.lookAt(lookAtRef.current.position);
+            basePositionRef.current.copy(camera.position); // Re-capture base position after initial look-at
+            isInitialLookAtSet.current = true;
+        }
         // Calculate the target X position based on the base position and mouse offset
         const targetX = basePositionRef.current.x + mouseX.current * MAX_HORIZONTAL_OFFSET
 
